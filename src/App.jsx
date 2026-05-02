@@ -37,7 +37,12 @@ const CRITICIDADES = ["TODAS", "ALTO", "MÉDIO", "BAIXO"];
 
 function pesoCriticidade(valor) {
   const texto = String(valor || "").toUpperCase();
-  if (texto.includes("ALTO") || texto.includes("CRÍTICO") || texto.includes("CRITICO")) return 3;
+  if (
+    texto.includes("ALTO") ||
+    texto.includes("CRÍTICO") ||
+    texto.includes("CRITICO")
+  )
+    return 3;
   if (texto.includes("MÉDIO") || texto.includes("MEDIO")) return 2;
   return 1;
 }
@@ -116,19 +121,31 @@ export default function App() {
     if (operacaoCarga) ops.push("carga");
     if (operacaoPassageiros) ops.push("passageiros");
     return ops;
-  }, [operacaoDomestica, operacaoInternacional, operacaoCarga, operacaoPassageiros]);
+  }, [
+    operacaoDomestica,
+    operacaoInternacional,
+    operacaoCarga,
+    operacaoPassageiros,
+  ]);
 
   const classificacao = useMemo(
     () =>
       classificarAerodromo({
         icao,
         tipoUso,
-                passageirosAno: Number(passageirosAno),
+        passageirosAno: Number(passageirosAno),
         comprimentoPista: Number(comprimentoPista),
         envergaduraMaxima: Number(envergaduraMaxima),
         tipoOperacaoAVSEC,
       }),
-    [tipoUso, passageirosAno, comprimentoPista, envergaduraMaxima, tipoOperacaoAVSEC]
+    [
+      icao,
+      tipoUso,
+      passageirosAno,
+      comprimentoPista,
+      envergaduraMaxima,
+      tipoOperacaoAVSEC,
+    ]
   );
 
   const CHECKLIST = useMemo(() => {
@@ -136,7 +153,9 @@ export default function App() {
     return dados.map(normalizarItem);
   }, [normaSelecionada]);
 
-  const [respostas, setRespostas] = useState(() => criarRespostasIniciais(CHECKLIST));
+  const [respostas, setRespostas] = useState(() =>
+    criarRespostasIniciais(CHECKLIST)
+  );
 
   useEffect(() => {
     setRespostas(criarRespostasIniciais(CHECKLIST));
@@ -184,19 +203,7 @@ export default function App() {
   }
 
   function carregarDadosDoAerodromo(dados) {
-    setAerodromo(`${dados.nome} - ${dados.cidade}/${dados.uf}`);
-    setTipoUso(dados.uso || "Público");
-    setPassageirosAno(Number(dados.passageirosAno || 0));
-    setComprimentoPista(Number(dados.comprimentoPista || 0));
-    setEnvergaduraMaxima(Number(dados.envergaduraMaxima || 0));
-    setTipoAeronave(dados.tipoAeronave || "médias");
-
     const ops = dados.tipoOperacaoAVSEC || [];
-
-    setOperacaoDomestica(ops.includes("doméstica") || ops.includes("domestica"));
-    setOperacaoInternacional(ops.includes("internacional"));
-    setOperacaoCarga(ops.includes("carga"));
-    setOperacaoPassageiros(ops.includes("passageiros"));
 
     const resultado = classificarAerodromo({
       icao: dados.icao,
@@ -206,6 +213,22 @@ export default function App() {
       envergaduraMaxima: Number(dados.envergaduraMaxima || 0),
       tipoOperacaoAVSEC: ops,
     });
+
+    setAerodromo(`${dados.nome} - ${dados.cidade}/${dados.uf}`);
+    setTipoUso(dados.uso || "Público");
+
+    // CORREÇÃO PRINCIPAL:
+    // usa o passageirosAno corrigido pela função classificarAerodromo
+    setPassageirosAno(Number(resultado.passageirosAno || 0));
+
+    setComprimentoPista(Number(dados.comprimentoPista || 0));
+    setEnvergaduraMaxima(Number(dados.envergaduraMaxima || 0));
+    setTipoAeronave(dados.tipoAeronave || "médias");
+
+    setOperacaoDomestica(ops.includes("doméstica") || ops.includes("domestica"));
+    setOperacaoInternacional(ops.includes("internacional"));
+    setOperacaoCarga(ops.includes("carga"));
+    setOperacaoPassageiros(ops.includes("passageiros"));
 
     setClasse(resultado.classe153);
 
@@ -248,12 +271,17 @@ export default function App() {
   }, [icao, baseANAC]);
 
   useEffect(() => {
-    const salvo = localStorage.getItem(chaveStorage(aerodromo, icao, normaSelecionada));
+    const salvo = localStorage.getItem(
+      chaveStorage(aerodromo, icao, normaSelecionada)
+    );
     if (!salvo) return;
 
     try {
       const dados = JSON.parse(salvo);
-      setRespostas({ ...criarRespostasIniciais(CHECKLIST), ...(dados.respostas || {}) });
+      setRespostas({
+        ...criarRespostasIniciais(CHECKLIST),
+        ...(dados.respostas || {}),
+      });
       setInspetor(dados.inspetor || "");
       setData(dados.data || new Date().toISOString().slice(0, 10));
       setConfigAerodromo(dados.configAerodromo || CONFIG_INICIAL_RBAC154);
@@ -331,7 +359,14 @@ export default function App() {
         (criticidadeFiltro === "TODAS" || item.criticidade === criticidadeFiltro)
       );
     });
-  }, [checklist, respostas, busca, subparte, statusFiltro, criticidadeFiltro]);
+  }, [
+    checklist,
+    respostas,
+    busca,
+    subparte,
+    statusFiltro,
+    criticidadeFiltro,
+  ]);
 
   const metricas = useMemo(() => {
     const aplicaveis = checklist.filter((i) => i.aplicavelPorClasse);
@@ -368,8 +403,12 @@ export default function App() {
   const rankingNC = useMemo(
     () =>
       checklist
-        .filter((i) => i.aplicavelPorClasse && respostas[i.ref]?.status === "NÃO CONFORME")
-        .sort((a, b) => pesoCriticidade(b.criticidade) - pesoCriticidade(a.criticidade)),
+        .filter(
+          (i) => i.aplicavelPorClasse && respostas[i.ref]?.status === "NÃO CONFORME"
+        )
+        .sort(
+          (a, b) => pesoCriticidade(b.criticidade) - pesoCriticidade(a.criticidade)
+        ),
     [checklist, respostas]
   );
 
@@ -536,9 +575,9 @@ export default function App() {
         <section className="panel">
           <h2>1. Base ANAC</h2>
           <p>
-          Esta área carrega a base ANAC completa pelo arquivo público JSON. Se a base não responder,
-o app continua usando a base local.
-</p>
+            Esta área carrega a base ANAC completa pelo arquivo público JSON. Se a
+            base não responder, o app continua usando a base local.
+          </p>
 
           <button onClick={atualizarBaseOnline} disabled={carregandoBase}>
             {carregandoBase ? "Atualizando..." : "🔄 Atualizar base ANAC"}
@@ -570,16 +609,27 @@ o app continua usando a base local.
 
             <label>
               Inspetor
-              <input value={inspetor} onChange={(e) => setInspetor(e.target.value)} />
+              <input
+                value={inspetor}
+                onChange={(e) => setInspetor(e.target.value)}
+              />
             </label>
 
             <label>
               Data
-              <input type="date" value={data} onChange={(e) => setData(e.target.value)} />
+              <input
+                type="date"
+                value={data}
+                onChange={(e) => setData(e.target.value)}
+              />
             </label>
           </div>
 
-          {mensagemICAO && <p><b>{mensagemICAO}</b></p>}
+          {mensagemICAO && (
+            <p>
+              <b>{mensagemICAO}</b>
+            </p>
+          )}
         </section>
 
         <section className="panel">
@@ -672,12 +722,24 @@ o app continua usando a base local.
                 <input value={configAerodromo.tipoOperacao} readOnly />
               </label>
 
-              <CampoSimNao label="Operação noturna" valor={configAerodromo.operacaoNoturna} disabled />
+              <CampoSimNao
+                label="Operação noturna"
+                valor={configAerodromo.operacaoNoturna}
+                disabled
+              />
               <CampoSimNao label="Possui pista" valor={configAerodromo.pista} disabled />
               <CampoSimNao label="Taxiway" valor={configAerodromo.taxiway} disabled />
               <CampoSimNao label="Pátio" valor={configAerodromo.patio} disabled />
-              <CampoSimNao label="Pista pavimentada" valor={configAerodromo.pavimentado} disabled />
-              <CampoSimNao label="Sistema elétrico" valor={configAerodromo.sistemaEletrico} disabled />
+              <CampoSimNao
+                label="Pista pavimentada"
+                valor={configAerodromo.pavimentado}
+                disabled
+              />
+              <CampoSimNao
+                label="Sistema elétrico"
+                valor={configAerodromo.sistemaEletrico}
+                disabled
+              />
             </div>
           </section>
         )}
@@ -706,7 +768,10 @@ o app continua usando a base local.
             ))}
           </select>
 
-          <select value={statusFiltro} onChange={(e) => setStatusFiltro(e.target.value)}>
+          <select
+            value={statusFiltro}
+            onChange={(e) => setStatusFiltro(e.target.value)}
+          >
             <option>TODOS</option>
             {STATUS.map((s) => (
               <option key={s}>{s}</option>
@@ -724,10 +789,30 @@ o app continua usando a base local.
         </section>
 
         <nav className="tabs">
-          <button className={aba === "checklist" ? "active" : ""} onClick={() => setAba("checklist")}>Checklist</button>
-          <button className={aba === "resumo" ? "active" : ""} onClick={() => setAba("resumo")}>Resumo executivo</button>
-          <button className={aba === "ncs" ? "active" : ""} onClick={() => setAba("ncs")}>Não conformes</button>
-          <button className={aba === "na" ? "active" : ""} onClick={() => setAba("na")}>Não aplicáveis</button>
+          <button
+            className={aba === "checklist" ? "active" : ""}
+            onClick={() => setAba("checklist")}
+          >
+            Checklist
+          </button>
+          <button
+            className={aba === "resumo" ? "active" : ""}
+            onClick={() => setAba("resumo")}
+          >
+            Resumo executivo
+          </button>
+          <button
+            className={aba === "ncs" ? "active" : ""}
+            onClick={() => setAba("ncs")}
+          >
+            Não conformes
+          </button>
+          <button
+            className={aba === "na" ? "active" : ""}
+            onClick={() => setAba("na")}
+          >
+            Não aplicáveis
+          </button>
         </nav>
 
         {aba === "checklist" && (
@@ -782,7 +867,9 @@ function CampoSimNao({ label, valor, disabled = false }) {
 
 function Metric({ titulo, valor, danger, ok, warn }) {
   return (
-    <div className={`metric ${danger ? "dangerBox" : ok ? "okBox" : warn ? "warnBox" : ""}`}>
+    <div
+      className={`metric ${danger ? "dangerBox" : ok ? "okBox" : warn ? "warnBox" : ""}`}
+    >
       <span>{titulo}</span>
       <b>{valor}</b>
     </div>
@@ -798,11 +885,14 @@ function ItemCard({ item, resposta, atualizar }) {
       <div className="itemHead">
         <div>
           <span className="ref">{item.ref}</span>
-          <span className={`crit c${pesoCriticidade(item.criticidade)}`}>{item.criticidade}</span>
+          <span className={`crit c${pesoCriticidade(item.criticidade)}`}>
+            {item.criticidade}
+          </span>
           <span className="status">{statusReal}</span>
         </div>
         <small>
-          {item.subparte} • Classe mínima: {item.classeMinima} • Condição: {item.condicaoComplementar}
+          {item.subparte} • Classe mínima: {item.classeMinima} • Condição:{" "}
+          {item.condicaoComplementar}
           {item.motivoNA ? ` • Motivo N/A: ${item.motivoNA}` : ""}
         </small>
       </div>
@@ -810,9 +900,15 @@ function ItemCard({ item, resposta, atualizar }) {
       <h2>{item.itemVerificavel}</h2>
 
       <div className="info">
-        <p><b>Critério:</b> {item.criterio}</p>
-        <p><b>Evidências:</b> {item.evidencias}</p>
-        <p><b>Risco:</b> {item.risco}</p>
+        <p>
+          <b>Critério:</b> {item.criterio}
+        </p>
+        <p>
+          <b>Evidências:</b> {item.evidencias}
+        </p>
+        <p>
+          <b>Risco:</b> {item.risco}
+        </p>
       </div>
 
       <div className="statusGrid">
@@ -867,19 +963,38 @@ function ItemCard({ item, resposta, atualizar }) {
   );
 }
 
-function Resumo({ aerodromo, icao, inspetor, passageirosAno, norma, metricas, rankingNC, classificacao }) {
+function Resumo({
+  aerodromo,
+  icao,
+  inspetor,
+  passageirosAno,
+  norma,
+  metricas,
+  rankingNC,
+  classificacao,
+}) {
   return (
     <section className="panel">
       <h2>Resumo executivo</h2>
 
       <p>
-        A inspeção do aeródromo <b>{aerodromo}</b> {icao && <b>({icao})</b>}, com classificação automática <b>{classificacao.RBAC_153}</b>, baseada em <b>{passageirosAno}</b> passageiros/ano, norma <b>{norma}</b>, conduzida por {inspetor || "inspetor não informado"}, apresenta <b>{metricas.percentual}%</b> de conformidade.
+        A inspeção do aeródromo <b>{aerodromo}</b> {icao && <b>({icao})</b>}, com
+        classificação automática <b>{classificacao.RBAC_153}</b>, baseada em{" "}
+        <b>{passageirosAno}</b> passageiros/ano, norma <b>{norma}</b>, conduzida por{" "}
+        {inspetor || "inspetor não informado"}, apresenta{" "}
+        <b>{metricas.percentual}%</b> de conformidade.
       </p>
 
       <h3>Classificação automática</h3>
-      <p><b>RBAC 153:</b> {classificacao.RBAC_153}</p>
-      <p><b>RBAC 154:</b> {classificacao.RBAC_154}</p>
-      <p><b>RBAC 107:</b> {classificacao.RBAC_107}</p>
+      <p>
+        <b>RBAC 153:</b> {classificacao.RBAC_153}
+      </p>
+      <p>
+        <b>RBAC 154:</b> {classificacao.RBAC_154}
+      </p>
+      <p>
+        <b>RBAC 107:</b> {classificacao.RBAC_107}
+      </p>
 
       <h3>Prioridade de ação</h3>
       {rankingNC.length === 0 ? (
@@ -905,12 +1020,22 @@ function Lista({ titulo, itens, respostas }) {
       ) : (
         itens.map((i) => (
           <div className="listItem" key={i.idInterno || i.ref}>
-            <b>{i.ref} • {i.criticidade}</b>
+            <b>
+              {i.ref} • {i.criticidade}
+            </b>
             <p>{i.itemVerificavel}</p>
             <small>{i.subparte}</small>
-            {i.motivoNA && <p><b>Motivo N/A:</b> {i.motivoNA}</p>}
-            <p><b>Obs:</b> {respostas[i.ref]?.observacao || "-"}</p>
-            <p><b>Evidência:</b> {respostas[i.ref]?.evidencia || "-"}</p>
+            {i.motivoNA && (
+              <p>
+                <b>Motivo N/A:</b> {i.motivoNA}
+              </p>
+            )}
+            <p>
+              <b>Obs:</b> {respostas[i.ref]?.observacao || "-"}
+            </p>
+            <p>
+              <b>Evidência:</b> {respostas[i.ref]?.evidencia || "-"}
+            </p>
           </div>
         ))
       )}
