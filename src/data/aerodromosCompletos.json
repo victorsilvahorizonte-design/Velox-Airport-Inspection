@@ -10,10 +10,7 @@
     "comprimentoPista": 3700,
     "envergaduraMaxima": 65,
     "tipoAeronave": "grandes",
-    "tipoOperacaoAVSEC": [
-      "doméstica",
-      "passageiros"
-    ],
+    "tipoOperacaoAVSEC": ["doméstica", "internacional", "passageiros", "carga"],
     "taxiway": true,
     "patio": true,
     "pavimentado": true,
@@ -23,18 +20,15 @@
   "SBSP": {
     "icao": "SBSP",
     "nome": "Aeroporto de Congonhas",
-    "cidade": "Congonhas",
+    "cidade": "São Paulo",
     "uf": "SP",
     "uso": "Público",
     "operacao": "IFR",
     "passageirosAno": 22000000,
     "comprimentoPista": 1940,
-    "envergaduraMaxima": 36,
-    "tipoAeronave": "grandes",
-    "tipoOperacaoAVSEC": [
-      "doméstica",
-      "passageiros"
-    ],
+    "envergaduraMaxima": 52,
+    "tipoAeronave": "médias",
+    "tipoOperacaoAVSEC": ["doméstica", "internacional", "passageiros", "carga"],
     "taxiway": true,
     "patio": true,
     "pavimentado": true,
@@ -44,7 +38,7 @@
   "SBKP": {
     "icao": "SBKP",
     "nome": "Aeroporto de Viracopos",
-    "cidade": "Viracopos",
+    "cidade": "Campinas",
     "uf": "SP",
     "uso": "Público",
     "operacao": "IFR",
@@ -52,10 +46,7 @@
     "comprimentoPista": 3240,
     "envergaduraMaxima": 65,
     "tipoAeronave": "grandes",
-    "tipoOperacaoAVSEC": [
-      "doméstica",
-      "passageiros"
-    ],
+    "tipoOperacaoAVSEC": ["doméstica", "internacional", "passageiros", "carga"],
     "taxiway": true,
     "patio": true,
     "pavimentado": true,
@@ -73,10 +64,7 @@
     "comprimentoPista": 3300,
     "envergaduraMaxima": 65,
     "tipoAeronave": "grandes",
-    "tipoOperacaoAVSEC": [
-      "doméstica",
-      "passageiros"
-    ],
+    "tipoOperacaoAVSEC": ["doméstica", "internacional", "passageiros", "carga"],
     "taxiway": true,
     "patio": true,
     "pavimentado": true,
@@ -93,11 +81,8 @@
     "passageirosAno": 3500000,
     "comprimentoPista": 2500,
     "envergaduraMaxima": 52,
-    "tipoAeronave": "grandes",
-    "tipoOperacaoAVSEC": [
-      "doméstica",
-      "passageiros"
-    ],
+    "tipoAeronave": "médias",
+    "tipoOperacaoAVSEC": ["doméstica", "internacional", "passageiros", "carga"],
     "taxiway": true,
     "patio": true,
     "pavimentado": true,
