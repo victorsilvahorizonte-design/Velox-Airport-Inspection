@@ -534,8 +534,8 @@ export default function App() {
         <section className="panel">
           <h2>1. Base ANAC</h2>
           <p>
-  Esta área carrega uma base online via API do Vercel. Se a API não responder,
-  o app continua usando a base local.
+          Esta área carrega a base ANAC completa pelo arquivo público JSON. Se a base não responder,
+o app continua usando a base local.
 </p>
 
           <button onClick={atualizarBaseOnline} disabled={carregandoBase}>
