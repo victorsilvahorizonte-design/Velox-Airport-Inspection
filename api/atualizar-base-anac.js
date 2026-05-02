@@ -1,68 +1,11 @@
-const base = {
-    SBGR: {
-      icao: "SBGR",
-      nome: "Aeroporto Internacional de São Paulo - Guarulhos",
-      cidade: "Guarulhos",
-      uf: "SP",
-      uso: "Público",
-      operacao: "IFR",
-      passageirosAno: 43000000,
-      comprimentoPista: 3700,
-      envergaduraMaxima: 65,
-      tipoAeronave: "grandes",
-      tipoOperacaoAVSEC: ["doméstica", "internacional", "passageiros", "carga"],
-      taxiway: true,
-      patio: true,
-      pavimentado: true,
-      sistemaEletrico: true,
-      operacaoNoturna: true,
-    },
-  
-    SBBR: {
-      icao: "SBBR",
-      nome: "Aeroporto Internacional de Brasília",
-      cidade: "Brasília",
-      uf: "DF",
-      uso: "Público",
-      operacao: "IFR",
-      passageirosAno: 15000000,
-      comprimentoPista: 3300,
-      envergaduraMaxima: 65,
-      tipoAeronave: "grandes",
-      tipoOperacaoAVSEC: ["doméstica", "internacional", "passageiros", "carga"],
-      taxiway: true,
-      patio: true,
-      pavimentado: true,
-      sistemaEletrico: true,
-      operacaoNoturna: true,
-    },
-  
-    SBGO: {
-      icao: "SBGO",
-      nome: "Aeroporto Internacional de Goiânia - Santa Genoveva",
-      cidade: "Goiânia",
-      uf: "GO",
-      uso: "Público",
-      operacao: "IFR",
-      passageirosAno: 3500000,
-      comprimentoPista: 2500,
-      envergaduraMaxima: 52,
-      tipoAeronave: "grandes",
-      tipoOperacaoAVSEC: ["doméstica", "internacional", "passageiros", "carga"],
-      taxiway: true,
-      patio: true,
-      pavimentado: true,
-      sistemaEletrico: true,
-      operacaoNoturna: true,
-    },
-  };
-  
-  export default function handler(req, res) {
-    res.status(200).json({
-      sucesso: true,
-      modo: "vercel-api-direta",
-      atualizadoEm: new Date().toISOString(),
-      total: Object.keys(base).length,
-      aerodromos: base,
-    });
-  }
+import base from "../src/data/aerodromosCompletos.json";
+
+export default function handler(req, res) {
+  return res.status(200).json({
+    sucesso: true,
+    modo: "vercel-api-direta",
+    atualizadoEm: new Date().toISOString(),
+    total: Object.keys(base).length,
+    aerodromos: base,
+  });
+}
