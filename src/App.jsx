@@ -121,8 +121,9 @@ export default function App() {
   const classificacao = useMemo(
     () =>
       classificarAerodromo({
+        icao,
         tipoUso,
-        passageirosAno: Number(passageirosAno),
+                passageirosAno: Number(passageirosAno),
         comprimentoPista: Number(comprimentoPista),
         envergaduraMaxima: Number(envergaduraMaxima),
         tipoOperacaoAVSEC,
@@ -198,6 +199,7 @@ export default function App() {
     setOperacaoPassageiros(ops.includes("passageiros"));
 
     const resultado = classificarAerodromo({
+      icao: dados.icao,
       tipoUso: dados.uso || "Público",
       passageirosAno: Number(dados.passageirosAno || 0),
       comprimentoPista: Number(dados.comprimentoPista || 0),

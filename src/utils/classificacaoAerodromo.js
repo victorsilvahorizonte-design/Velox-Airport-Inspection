@@ -1,3 +1,17 @@
+const PASSAGEIROS_ESTIMADOS = {
+  SBGR: 43000000,
+  SBSP: 22000000,
+  SBKP: 12000000,
+  SBBR: 15000000,
+  SBGL: 14000000,
+  SBRJ: 10000000,
+  SBCF: 12000000,
+  SBGO: 3500000,
+  SBSV: 9000000,
+  SBPA: 8000000,
+  SBEG: 7000000,
+};
+
 function normalizarTexto(valor) {
   return String(valor || "")
     .normalize("NFD")
@@ -11,8 +25,14 @@ function numero(valor) {
 }
 
 export function classificarAerodromo(dados = {}) {
+  const icao = String(dados.icao || "").toUpperCase();
   const tipoUso = normalizarTexto(dados.tipoUso || dados.uso);
-  const passageirosAno = numero(dados.passageirosAno);
+
+  const passageirosAno =
+    numero(dados.passageirosAno) > 0
+      ? numero(dados.passageirosAno)
+      : numero(PASSAGEIROS_ESTIMADOS[icao]);
+
   const comprimentoPista = numero(dados.comprimentoPista);
   const envergaduraMaxima = numero(dados.envergaduraMaxima);
 
@@ -25,7 +45,7 @@ export function classificarAerodromo(dados = {}) {
   let rbac153 = "Não aplicável - Aeródromo privativo";
   let classe153 = 0;
 
-  if (tipoUso.includes("publico") || tipoUso.includes("público")) {
+  if (tipoUso.includes("publico")) {
     if (passageirosAno < 200000) {
       rbac153 = "Classe I";
       classe153 = 1;
@@ -42,32 +62,18 @@ export function classificarAerodromo(dados = {}) {
   }
 
   let codigoNumero = 1;
-
-  if (comprimentoPista < 800) {
-    codigoNumero = 1;
-  } else if (comprimentoPista < 1200) {
-    codigoNumero = 2;
-  } else if (comprimentoPista < 1800) {
-    codigoNumero = 3;
-  } else {
-    codigoNumero = 4;
-  }
+  if (comprimentoPista < 800) codigoNumero = 1;
+  else if (comprimentoPista < 1200) codigoNumero = 2;
+  else if (comprimentoPista < 1800) codigoNumero = 3;
+  else codigoNumero = 4;
 
   let codigoLetra = "A";
-
-  if (envergaduraMaxima < 15) {
-    codigoLetra = "A";
-  } else if (envergaduraMaxima < 24) {
-    codigoLetra = "B";
-  } else if (envergaduraMaxima < 36) {
-    codigoLetra = "C";
-  } else if (envergaduraMaxima < 52) {
-    codigoLetra = "D";
-  } else if (envergaduraMaxima < 65) {
-    codigoLetra = "E";
-  } else {
-    codigoLetra = "F";
-  }
+  if (envergaduraMaxima < 15) codigoLetra = "A";
+  else if (envergaduraMaxima < 24) codigoLetra = "B";
+  else if (envergaduraMaxima < 36) codigoLetra = "C";
+  else if (envergaduraMaxima < 52) codigoLetra = "D";
+  else if (envergaduraMaxima < 65) codigoLetra = "E";
+  else codigoLetra = "F";
 
   const temPassageiros = operacoes.includes("passageiros");
   const temInternacional = operacoes.includes("internacional");
@@ -92,7 +98,5 @@ export function classificarAerodromo(dados = {}) {
     codigoNumero,
     codigoLetra,
     passageirosAno,
-    comprimentoPista,
-    envergaduraMaxima,
   };
 }
