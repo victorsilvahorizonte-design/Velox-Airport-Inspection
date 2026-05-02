@@ -1,0 +1,107 @@
+{
+  "SBGR": {
+    "icao": "SBGR",
+    "nome": "Aeroporto de Guarulhos",
+    "cidade": "Guarulhos",
+    "uf": "SP",
+    "uso": "Público",
+    "operacao": "IFR",
+    "passageirosAno": 43000000,
+    "comprimentoPista": 3700,
+    "envergaduraMaxima": 65,
+    "tipoAeronave": "grandes",
+    "tipoOperacaoAVSEC": [
+      "doméstica",
+      "passageiros"
+    ],
+    "taxiway": true,
+    "patio": true,
+    "pavimentado": true,
+    "sistemaEletrico": true,
+    "operacaoNoturna": true
+  },
+  "SBSP": {
+    "icao": "SBSP",
+    "nome": "Aeroporto de Congonhas",
+    "cidade": "Congonhas",
+    "uf": "SP",
+    "uso": "Público",
+    "operacao": "IFR",
+    "passageirosAno": 22000000,
+    "comprimentoPista": 1940,
+    "envergaduraMaxima": 36,
+    "tipoAeronave": "grandes",
+    "tipoOperacaoAVSEC": [
+      "doméstica",
+      "passageiros"
+    ],
+    "taxiway": true,
+    "patio": true,
+    "pavimentado": true,
+    "sistemaEletrico": true,
+    "operacaoNoturna": true
+  },
+  "SBKP": {
+    "icao": "SBKP",
+    "nome": "Aeroporto de Viracopos",
+    "cidade": "Viracopos",
+    "uf": "SP",
+    "uso": "Público",
+    "operacao": "IFR",
+    "passageirosAno": 12000000,
+    "comprimentoPista": 3240,
+    "envergaduraMaxima": 65,
+    "tipoAeronave": "grandes",
+    "tipoOperacaoAVSEC": [
+      "doméstica",
+      "passageiros"
+    ],
+    "taxiway": true,
+    "patio": true,
+    "pavimentado": true,
+    "sistemaEletrico": true,
+    "operacaoNoturna": true
+  },
+  "SBBR": {
+    "icao": "SBBR",
+    "nome": "Aeroporto de Brasília",
+    "cidade": "Brasília",
+    "uf": "DF",
+    "uso": "Público",
+    "operacao": "IFR",
+    "passageirosAno": 15000000,
+    "comprimentoPista": 3300,
+    "envergaduraMaxima": 65,
+    "tipoAeronave": "grandes",
+    "tipoOperacaoAVSEC": [
+      "doméstica",
+      "passageiros"
+    ],
+    "taxiway": true,
+    "patio": true,
+    "pavimentado": true,
+    "sistemaEletrico": true,
+    "operacaoNoturna": true
+  },
+  "SBGO": {
+    "icao": "SBGO",
+    "nome": "Aeroporto de Goiânia",
+    "cidade": "Goiânia",
+    "uf": "GO",
+    "uso": "Público",
+    "operacao": "IFR",
+    "passageirosAno": 3500000,
+    "comprimentoPista": 2500,
+    "envergaduraMaxima": 52,
+    "tipoAeronave": "grandes",
+    "tipoOperacaoAVSEC": [
+      "doméstica",
+      "passageiros"
+    ],
+    "taxiway": true,
+    "patio": true,
+    "pavimentado": true,
+    "sistemaEletrico": true,
+    "operacaoNoturna": true
+  }
+}
