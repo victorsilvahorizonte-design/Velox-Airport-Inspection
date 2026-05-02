@@ -18,6 +18,45 @@ export default function handler(req, res) {
       sistemaEletrico: true,
       operacaoNoturna: true,
     },
+
+    SBSP: {
+      icao: "SBSP",
+      nome: "Aeroporto de São Paulo - Congonhas",
+      cidade: "São Paulo",
+      uf: "SP",
+      uso: "Público",
+      operacao: "IFR",
+      passageirosAno: 22000000,
+      comprimentoPista: 1940,
+      envergaduraMaxima: 52,
+      tipoAeronave: "médias",
+      tipoOperacaoAVSEC: ["doméstica", "passageiros"],
+      taxiway: true,
+      patio: true,
+      pavimentado: true,
+      sistemaEletrico: true,
+      operacaoNoturna: true,
+    },
+
+    SBKP: {
+      icao: "SBKP",
+      nome: "Aeroporto Internacional de Viracopos",
+      cidade: "Campinas",
+      uf: "SP",
+      uso: "Público",
+      operacao: "IFR",
+      passageirosAno: 12000000,
+      comprimentoPista: 3240,
+      envergaduraMaxima: 65,
+      tipoAeronave: "grandes",
+      tipoOperacaoAVSEC: ["doméstica", "internacional", "passageiros", "carga"],
+      taxiway: true,
+      patio: true,
+      pavimentado: true,
+      sistemaEletrico: true,
+      operacaoNoturna: true,
+    },
+
     SBBR: {
       icao: "SBBR",
       nome: "Aeroporto Internacional de Brasília",
@@ -36,6 +75,7 @@ export default function handler(req, res) {
       sistemaEletrico: true,
       operacaoNoturna: true,
     },
+
     SBGO: {
       icao: "SBGO",
       nome: "Aeroporto Internacional de Goiânia - Santa Genoveva",
@@ -46,19 +86,19 @@ export default function handler(req, res) {
       passageirosAno: 3500000,
       comprimentoPista: 2500,
       envergaduraMaxima: 52,
-      tipoAeronave: "grandes",
-      tipoOperacaoAVSEC: ["doméstica", "internacional", "passageiros", "carga"],
+      tipoAeronave: "médias",
+      tipoOperacaoAVSEC: ["doméstica", "passageiros"],
       taxiway: true,
       patio: true,
       pavimentado: true,
       sistemaEletrico: true,
       operacaoNoturna: true,
-    },
+    }
   };
 
   return res.status(200).json({
     sucesso: true,
-    modo: "vercel-api-direta-sem-import",
+    modo: "vercel-api-direta",
     atualizadoEm: new Date().toISOString(),
     total: Object.keys(base).length,
     aerodromos: base,
