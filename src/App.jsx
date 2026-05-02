@@ -534,9 +534,9 @@ export default function App() {
         <section className="panel">
           <h2>1. Base ANAC</h2>
           <p>
-            Esta área carrega uma base online via função do Netlify. Se a função ainda
-            não estiver publicada, o app continua usando a base local.
-          </p>
+  Esta área carrega uma base online via API do Vercel. Se a API não responder,
+  o app continua usando a base local.
+</p>
 
           <button onClick={atualizarBaseOnline} disabled={carregandoBase}>
             {carregandoBase ? "Atualizando..." : "🔄 Atualizar base ANAC"}

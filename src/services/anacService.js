@@ -1,14 +1,9 @@
 export async function atualizarBaseANAC() {
-  try {
-    const resposta = await fetch("/api/atualizar-base-anac");
+  const resposta = await fetch("/api/atualizar-base-anac");
 
-    if (!resposta.ok) {
-      throw new Error("Erro na API");
-    }
-
-    return await resposta.json();
-  } catch (erro) {
-    console.error("Erro ao buscar base:", erro);
-    return null;
+  if (!resposta.ok) {
+    throw new Error("Falha ao atualizar base ANAC.");
   }
+
+  return await resposta.json();
 }
