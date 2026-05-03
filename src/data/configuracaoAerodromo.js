@@ -1,18 +1,14 @@
+// src/data/configuracaoAerodromo.js
+
 export const CONFIG_INICIAL_RBAC154 = {
-  codigoNumero: 3,
-  codigoLetra: "C",
-
-  tipoOperacao: "VFR",
-
-  pista: true,
-  taxiway: true,
-  patio: true,
-
-  pavimentado: true,
+  nomeAerodromo: "",
+  codigoICAO: "",
+  letraCodigo: "A",
+  internacional: false,
   operacaoNoturna: false,
-  sistemaEletrico: false,
-  baixaVisibilidade: false,
-
-  usoPublico: true,
-  internacional: false
+  operacaoIFR: false,
+  processaPassageiros: false,
+  processaCarga: false,
 };
+
+export default CONFIG_INICIAL_RBAC154;
